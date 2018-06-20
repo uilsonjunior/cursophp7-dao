@@ -40,12 +40,22 @@ echo json_encode($usuarios);*/
 //$aluno->insert();
 
 //echo $aluno;
+//atualizando os dados 
+//$usuario = new Usuario();
+
+//$usuario->loadById(6);
+
+//$usuario->update("professor","xavier");
+
+//echo $usuario;
+
+//apaga usuario
 
 $usuario = new Usuario();
 
-$usuario->loadById(6);
+$usuario->loadById(7);
 
-$usuario->update("professor","xavier");
+$usuario->delete();
 
 echo $usuario;
  ?>
