@@ -28,10 +28,24 @@ echo json_encode($usuarios);*/
 
 //carrega usuario usando o login e senha
 
+//$usuario = new Usuario();
+//$usuario->login("user","12345");
+
+//echo $usuario;
+
+// inserção de dados
+
+//$aluno = new Usuario("aluno","senha");
+
+//$aluno->insert();
+
+//echo $aluno;
+
 $usuario = new Usuario();
-$usuario->login("user","12345");
+
+$usuario->loadById(6);
+
+$usuario->update("professor","xavier");
 
 echo $usuario;
-
-
  ?>

@@ -47,14 +47,10 @@ class Usuario {
 			":ID"=>$id
 		));
 
-		if (isset($results)) {// if (count($results) > 0 )
-			$row = $results[0];
+		//if (isset($results)) {// 
 
-			$this->setIdUsuario($row['idusuario']);
-			$this->setDeslogin($row['dessenha']);
-			$this->setDessenha($row['deslogin']);
-			$this->setDtcastro(new DateTime($row['dtcadastro']));
-
+		if (count($results) > 0 ){
+			$this->setData($results[0]);
 		}
 
 	}
@@ -84,17 +80,62 @@ class Usuario {
 
 		//if (isset($results)) {// 
 	   if (count($results) > 0 ){
-			$row = $results[0];
-
-			$this->setIdUsuario($row['idusuario']);
-			$this->setDeslogin($row['dessenha']);
-			$this->setDessenha($row['deslogin']);
-			$this->setDtcastro(new DateTime($row['dtcadastro']));
+			
+			$this->setData($results[0]);
 
 		}else{
 			throw new Exception("Login/senha incorretos!");
 			
 		}
+
+	}
+
+	public function setData($data){
+
+		$this->setIdUsuario($data['idusuario']);
+		$this->setDeslogin($data['deslogin']);
+		$this->setDessenha($data['dessenha']);
+		$this->setDtcastro(new DateTime($data['dtcadastro']));
+
+	}
+
+	public function insert(){
+
+		$sql = new Sql();
+
+		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :SENHA)",array(
+			':LOGIN'=>$this->getDeslogin(),
+			':SENHA'=>$this->getDessenha()
+		));
+
+		if (count($results) > 0){
+			$this->setData($results[0]);
+		}
+
+
+	}
+
+	public function update($login,$senha){
+
+		$this->setDeslogin($login);
+		$this->setDessenha($senha);
+
+		$sql = new Sql();
+
+		$sql->query("UPDATE TB_USUARIOS SET deslogin = :LOGIN, dessenha = :SENHA WHERE idusuario = :ID",
+			array(
+				':LOGIN'=>$this->getDeslogin(),
+				':SENHA'=>$this->getDessenha(),
+				':ID'=>$this->getIdUsuario()
+			)
+		);
+
+	}
+
+	public function __construct($login="", $senha=""){
+
+		$this->setDeslogin($login);
+		$this->setDessenha($senha);
 
 	}
 
